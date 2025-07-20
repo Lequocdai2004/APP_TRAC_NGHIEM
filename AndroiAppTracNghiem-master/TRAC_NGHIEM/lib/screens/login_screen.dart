@@ -309,19 +309,46 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                       const SizedBox(width: 10),
                       FadeTransition(
                         opacity: _faceIdFadeAnimation,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          padding: const EdgeInsets.all(10),
-                          child: Image.asset(
-                            'assets/images/face_id.png',
-                            width: 30,
-                            height: 30,
+                        child: GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text("Yêu cầu đăng nhập"),
+                                content: const Text("Bạn cần mở chức năng đăng nhập bằng khuôn mặt sau khi đăng nhập để sử dụng tính năng này."),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context); // Đóng dialog
+                                    },
+                                    child: const Text("Hủy"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.pushNamed(context, 'login_screen.dart');
+                                    },
+                                    child: const Text("Đăng nhập"),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: const EdgeInsets.all(10),
+                            child: Image.asset(
+                              'assets/images/face_id.png',
+                              width: 30,
+                              height: 30,
+                            ),
                           ),
                         ),
                       ),
+
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -343,7 +370,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                       child: const Text("Đăng ký"),
                     ),
                   ),
-                  const SizedBox(height: 90),
+                  const SizedBox(height: 115),
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton.icon(
@@ -379,7 +406,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                       ),
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

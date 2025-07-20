@@ -18,6 +18,8 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String _selectedRole = 'student'; // Mặc định Học sinh
@@ -70,6 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
     fullNameController.dispose();
     emailController.dispose();
     passwordController.dispose();
+    confirmPasswordController.dispose();
 
     _controller.dispose();
     _appleController.dispose();
@@ -163,7 +166,7 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
                       ),
                     ],
                   ),
-                  const SizedBox(height: 120),
+                  const SizedBox(height: 40),
                   TextFormField(
                     controller: fullNameController,
                     decoration: _buildInputDecoration('Họ tên'),
@@ -189,6 +192,21 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
                     value != null && value.length < 6 ? 'Tối thiểu 6 ký tự' : null,
                   ),
                   const SizedBox(height: 16),
+                  TextFormField(
+                    controller: confirmPasswordController,
+                    obscureText: true,
+                    decoration: _buildInputDecoration('Nhập lại mật khẩu'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Vui lòng nhập lại mật khẩu';
+                      }
+                      if (value != passwordController.text) {
+                        return 'Mật khẩu không khớp';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -196,32 +214,35 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
                         "Chọn vai trò:",
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
-                      ListTile(
-                        title: const Text("Học sinh"),
-                        leading: Radio<String>(
-                          value: 'student',
-                          groupValue: _selectedRole,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedRole = value!;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: const Text("Giáo viên"),
-                        leading: Radio<String>(
-                          value: 'teacher',
-                          groupValue: _selectedRole,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedRole = value!;
-                            });
-                          },
-                        ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Radio<String>(
+                            value: 'student',
+                            groupValue: _selectedRole,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedRole = value!;
+                              });
+                            },
+                          ),
+                          const Text("Học sinh"),
+                          const SizedBox(width: 160), // Khoảng cách giữa 2 radio
+                          Radio<String>(
+                            value: 'teacher',
+                            groupValue: _selectedRole,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedRole = value!;
+                              });
+                            },
+                          ),
+                          const Text("Giáo viên"),
+                        ],
                       ),
                     ],
                   ),
+
                   const SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
@@ -254,7 +275,7 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
                       child: const Text("Đăng nhập"),
                     ),
                   ),
-                  const SizedBox(height: 90),
+                  const SizedBox(height: 50),
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton.icon(
@@ -294,14 +315,14 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
                       ),
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AnimatedBuilder(
                         animation: _tiltController,
                         builder: (context, child) {
-                          final text = "student-mobile-web.azota.vn";
+                          final text = "student-mobile-web.tracnghiem.vn";
                           return Row(
                             mainAxisSize: MainAxisSize.min,
                             children: List.generate(text.length, (index) {
